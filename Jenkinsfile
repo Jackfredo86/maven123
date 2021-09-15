@@ -3,7 +3,7 @@ pipeline
     agent any
     stages
     {
-        stage('ContinuousDownload')
+        stage('ContinuousDownload_Loans')
         {
             steps
             {
@@ -21,7 +21,7 @@ pipeline
                 }
             }
         }
-        stage('ContinuousBuild')
+        stage('ContinuousBuild_Loans')
         {
             steps
             {
@@ -39,7 +39,7 @@ pipeline
                 }
             }
         }
-        stage('ContinuousDeployment')
+        stage('ContinuousDeployment_Loans')
         {
             steps
             {
@@ -57,7 +57,7 @@ pipeline
                 }
             }
         }
-        stage('ContinuousTesting')
+        stage('ContinuousTesting_Loans')
         {
             steps
             {
@@ -72,23 +72,6 @@ pipeline
                     {
                         mail bcc: '', body: 'Selenium test scripts are failing', cc: '', from: '', replyTo: '', subject: 'Testing Failed', to: 'qa.team@gmail.com'
                         exit(1)
-                    }
-                }
-            }
-        }
-        stage('ContinuousDelivery')
-        {
-            steps
-            {
-                script
-                {
-                    try
-                    {
-                        deploy adapters: [tomcat9(credentialsId: '2991e159-199e-4237-9d1f-70609156ad52', path: '', url: 'http://172.31.84.240:8080')], contextPath: 'prodapp', war: '**/*.war'
-                    }
-                    catch(Exception e5)
-                    {
-                        mail bcc: '', body: 'Jenkins is unable to deploy into tomcat on the prodserver', cc: '', from: '', replyTo: '', subject: 'Delivery Failed', to: 'delivery.team@gmail.com'
                     }
                 }
             }
